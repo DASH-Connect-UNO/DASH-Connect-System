@@ -4,6 +4,8 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 
+from accounts.CustomUserManager import CustomUserManager
+
 
 class CustomUser(AbstractUser):
     # Explicitly removed the username field
@@ -24,6 +26,7 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'NUID'
     REQUIRED_FIELDS = ['email']
 
+    objects = CustomUserManager()
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.NUID})"
