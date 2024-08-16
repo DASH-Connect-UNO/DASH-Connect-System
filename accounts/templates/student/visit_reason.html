@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reason for Visit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+        .header img {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .form-container {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 500px;
+        }
+        .form-container label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .form-container .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px; 
+        }
+        .form-container .checkbox-container label {
+            margin: 0; 
+        }
+        .form-container input[type="checkbox"] {
+            margin-left: 10px; 
+        }
+        .form-container button {
+            background-color: crimson;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .form-container button:hover {
+            background-color: #c82333;
+        }
+        .fieldset-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 2px solid #000; 
+            border-radius: 5px;
+        }
+        .fieldset-container legend {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+        </div>
+        <h1>Reason for visit today</h1>
+        <div class="form-container">
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="fieldset-container">
+                    <legend><strong>Please select as many as needed:</strong></legend>
+                    <div class="checkbox-container">
+                        {{ form.appointment.label_tag }} {{ form.appointment }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.printing.label_tag }} {{ form.printing }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.study.label_tag }} {{ form.study }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.socialize.label_tag }} {{ form.socialize }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.student_affinity_group.label_tag }} {{ form.student_affinity_group }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.event.label_tag }} {{ form.event }}
+                    </div>
+                </div>
+
+                <div class="fieldset-container">
+                    <legend><strong>Would you like DASH to follow up via email on the following(s)?</strong></legend>
+                    <div class="checkbox-container">
+                        {{ form.schedule_appointment.label_tag }} {{ form.schedule_appointment }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.hardship.label_tag }} {{ form.hardship }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.basic_needs_support.label_tag }} {{ form.basic_needs_support }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.financial_wellness.label_tag }} {{ form.financial_wellness }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.volunteer_opportunities.label_tag }} {{ form.volunteer_opportunities }}
+                    </div>
+                    <div class="checkbox-container">
+                        {{ form.other.label_tag }} {{ form.other }}
+                    </div>
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+

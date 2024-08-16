@@ -1,0 +1,302 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 99%;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .logo img {
+            max-height: 50px;
+        }
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+        }
+        .content-header h1 {
+            margin: 0;
+            color: #fff;
+            flex-grow: 1;
+        }
+        .add-student-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: crimson;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+        .add-student-button:hover {
+            background-color: darkred;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            color: #000;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: crimson;
+            color: #fff;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        .deactivated td {
+            color: gray;
+            background-color: #e0e0e0;
+        }
+        .action-button {
+            padding: 8px 12px;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: crimson;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .action-button:hover {
+            background-color: darkred;
+        }
+        .student-link {
+            color: crimson;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .student-link:hover {
+            color: darkred;
+        }
+        .pagination {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .pagination .page-info {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .pagination a {
+            color: #fff;
+            background-color: crimson;
+            padding: 8px 16px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .pagination a:hover {
+            background-color: darkred;
+        }
+        .pagination .current {
+            color: #fff;
+            background-color: crimson;
+            padding: 8px 16px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+        .search-bar {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            margin-right: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'student_activity' %}">Student Activity</a>
+                <a href="{% url 'student_information' %}">Student Information</a>
+                <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                <a href="{% url 'admin_profile' %}">Administration</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+        <div class="content">
+            <div class="content-header">
+                <h1>Student Information</h1>
+                <input type="text" id="searchBar" class="search-bar" placeholder="Search by student name...">
+                <a href="{% url 'add_student' %}" class="add-student-button">Add Student</a>
+            </div>
+            <table id="studentTable">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>NUID</th>
+                        <th>Email</th>
+                        <th>Year</th>
+                        <th>DASH Member</th>
+                        <th>Scholarships</th>
+                        <th>Hardships</th>
+                        <th>Basic Need Supports</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in page_obj %}
+                    <tr id="student-{{ student.user.NUID }}" class="{% if not student.user.is_active %}deactivated{% endif %}">
+                        <td>
+                            <a href="{% url 'student_profile' student.user.NUID %}" class="student-link">
+                                {{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}
+                            </a>
+                        </td>
+                        <td>{{ student.user.NUID }}</td>
+                        <td>{{ student.user.email }}</td>
+                        <td>{{ student.year }}</td>
+                        <td>{{ student.DASH_Member|yesno:"Yes,No" }}</td>
+                        <td>
+                            {% for scholarship in student.scholarships.all %}
+                                <span class="{% if scholarship.is_deactivated %}deactivated-item{% endif %}">
+                                    {{ scholarship.name }}
+                                </span>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for hardship in student.hardships.all %}
+                                <span class="{% if hardship.is_deactivated %}deactivated-item{% endif %}">
+                                    {{ hardship.name }}
+                                </span>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for basic_need in student.basic_need_supports.all %}
+                                <span class="{% if basic_need.is_deactivated %}deactivated-item{% endif %}">
+                                    {{ basic_need.name }}
+                                </span>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ student.date_added }}</td>
+                        <td>
+                            <form method="post" action="{% url 'toggle_student_status' student.user.NUID %}">
+                                {% csrf_token %}
+                                <button type="submit" class="action-button">
+                                    {% if student.user.is_active %}Deactivate{% else %}Activate{% endif %}
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                <div class="page-info">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </div>
+                <div class="pagination-links">
+                    <a href="?page=1">&laquo; First</a>
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    {% else %}
+                        <a href="#" class="disabled">Previous</a>
+                    {% endif %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    {% else %}
+                        <a href="#" class="disabled">Next</a>
+                    {% endif %}
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('searchBar').addEventListener('keyup', function() {
+            var input = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#studentTable tbody tr');
+
+            rows.forEach(function(row) {
+                var fullName = row.querySelector('td:first-child').textContent.toLowerCase();
+                if (fullName.includes(input)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

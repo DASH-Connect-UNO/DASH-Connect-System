@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Administrator</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #333;
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            color: #000;
+        }
+
+        .logo img {
+            max-height: 50px;
+        }
+
+        h1, h2 {
+            color: #fff;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 600px;
+            color: #000;
+        }
+
+        .form-container h2 {
+            margin-top: 0;
+        }
+
+        .form-container input,
+        .form-container select,
+        .form-container button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            background-color: crimson;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: darkred;
+        }
+
+        .go-back-button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .go-back-button:hover {
+            background-color: #777;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .required-fields-message {
+            color: crimson;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: crimson;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-nav">
+                <div class="logo">
+                    <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+                </div>
+            </div>
+        </div>
+        <h1 class="page-title">Register Administrator</h1>
+        <div class="form-container">
+            <div class="required-fields-message">All fields are required</div>
+            <form method="post" action="{% url 'register_admin' %}">
+                {% csrf_token %}
+                {% for field in user_form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            {% if field.name != 'password1' and field.name != 'password2' %}
+                                <div class="error">{{ field.errors|join:" " }}</div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                {% for field in admin_form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="error">{{ field.errors|join:" " }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit">Register</button>
+            </form>
+            <a href="{% url 'admin_login' %}" class="go-back-button">Go Back</a> <!-- Go Back Button -->
+        </div>
+    </div>
+</body>
+</html>
+
+
+

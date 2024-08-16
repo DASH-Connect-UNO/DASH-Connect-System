@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All set!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 75%;
+            padding: 20px;
+            text-align: center;
+            height: 400px; 
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .header img {
+            max-width: 300px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        p {
+            font-size: 24px;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+        .close-button {
+            background-color: crimson;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 50%;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .close-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+        </div>
+        <h1>All set!</h1>
+        <p>Thanks for visiting DASH!</p>
+        <button class="close-button" onclick="window.location.href='{% url 'student_login' %}'" aria-label="Close and return to login page">Close</button>
+    </div>
+</body>
+</html>
+

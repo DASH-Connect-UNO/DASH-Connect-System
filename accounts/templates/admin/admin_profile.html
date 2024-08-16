@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Profile</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            background-color: #000; 
+            color: #fff; 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #333333; 
+            border-radius: 8px;
+            width: 95%; 
+            box-sizing: border-box; 
+            margin: 20px auto; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin: 0 auto;
+            color: #000;
+        }
+
+        .logo img {
+            max-height: 50px;
+        }
+
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2 {
+            color: #000;
+        }
+
+        .profile-container {
+            display: flex;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #fff; 
+            border-right: 1px solid #ccc;
+            border-radius: 8px;
+            color: #000; 
+            margin-right: 20px; 
+        }
+
+        .sidebar button, .sidebar a {
+            display: block;
+            width: 90%; 
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: #fff; 
+            background-color: crimson; 
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .sidebar button:hover, .sidebar a:hover {
+            background-color: darkred; 
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            color: #000; 
+        }
+
+        .admin-item {
+            background-color: #fff; 
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+            color: #000; 
+        }
+
+        .admin-item h2 {
+            margin: 0 0 10px 0;
+        }
+
+        .admin-item p {
+            margin: 5px 0;
+        }
+
+        .admin-item a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff; 
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .admin-item a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo-nav">
+            <div class="logo">
+                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'student_activity' %}">Student Activity</a>
+                <a href="{% url 'student_information' %}">Student Information</a>
+                <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                <a href="{% url 'admin_profile' %}">Administrator Profile</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="profile-container">
+        <div class="sidebar">
+            <a href="{% url 'admin_profile' %}">Administration Profile</a>
+            <a href="{% url 'add_admin' %}">Add Administrator</a>
+            <a href="{% url 'admin_list' %}">Administration List</a>
+        </div>
+        <div class="content">
+            <h1>Administrator Profile</h1>
+            <div class="admin-item">
+                <h2>{{ admin_profile.user.first_name }} {{ admin_profile.user.middle_name }} {{ admin_profile.user.last_name }}</h2>
+                <p>NUID: {{ admin_profile.user.NUID }}</p>
+                <p>Email: {{ admin_profile.user.email }}</p>
+                <p>Role within DASH: {{ admin_profile.role_within_DASH }}</p>
+                <p>Status: {{ admin_profile.user.is_active|yesno:"Active,Deactivated" }}</p>
+                <a href="{% url 'edit_admin' admin_profile.user.NUID %}">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

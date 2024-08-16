@@ -1,0 +1,295 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin: 0 auto;
+            color: #000;
+        }
+
+        .logo img {
+            max-height: 50px;
+        }
+
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2 {
+            color: #fff;
+        }
+
+        .form-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            color: #000;
+        }
+
+        form div {
+            margin-bottom: 20px;
+        }
+
+        form div input,
+        form div select,
+        form div textarea,
+        .form-container button {
+            background-color: #fff;
+            color: #000;
+            padding: 10px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        form div label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .button-container {
+            text-align: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .button-container .register-button {
+            background-color: crimson;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .button-container .register-button:hover {
+            background-color: darkred;
+        }
+
+        .button-container .go-back-button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-weight: bold;
+        }
+
+        .button-container .go-back-button:hover {
+            background-color: #777;
+        }
+
+        .form-section h2 {
+            color: #000;
+        }
+
+        .checkbox-group {
+            padding-left: 20px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group input {
+            margin-right: 10px;
+            width: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .required-fields-message {
+            color: crimson;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: crimson;
+            font-weight: bold;
+        }
+
+        .sub-section {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .sub-section h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .sub-section .checkbox-group {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo-nav">
+            <div class="logo">
+                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'student_activity' %}">Student Activity</a>
+                <a href="{% url 'student_information' %}">Student Information</a>
+                <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                <a href="{% url 'admin_profile' %}">Administration</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+    </div>
+    <h1>Add Student</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-section">
+            <h2>Student Information</h2>
+            {{ user_form.as_p }}
+        </div>
+        <div class="form-section">
+            <h2>Student Details</h2>
+            <div>
+                {{ student_form.year.label_tag }} {{ student_form.year }}
+                <div id="other-year-container" class="hidden">
+                    {{ student_form.other_year.label_tag }} {{ student_form.other_year }}
+                </div>
+            </div>
+
+            <div>
+                {{ student_form.DASH_Member.label_tag }} {{ student_form.DASH_Member }}
+            </div>
+
+            <div class="sub-section">
+                <h3>Scholarships</h3>
+                <div class="checkbox-group">
+                    {% for checkbox in student_form.scholarships %}
+                        <label>{{ checkbox }} {{ checkbox.label }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>Hardships</h3>
+                <div class="checkbox-group">
+                    {% for checkbox in student_form.hardships %}
+                        <label>{{ checkbox }} {{ checkbox.label }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>Basic Need Supports</h3>
+                <div class="checkbox-group">
+                    {% for checkbox in student_form.basic_need_supports %}
+                        <label>{{ checkbox }} {{ checkbox.label }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="register-button">Add Student</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const yearSelect = document.getElementById("{{ student_form.year.id_for_label }}");
+        const otherYearContainer = document.getElementById("other-year-container");
+
+        function toggleOtherYearContainer() {
+            if (yearSelect.value === "Other") {
+                otherYearContainer.classList.remove("hidden");
+            } else {
+                otherYearContainer.classList.add("hidden");
+            }
+        }
+
+        yearSelect.addEventListener("change", toggleOtherYearContainer);
+        
+        toggleOtherYearContainer();
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

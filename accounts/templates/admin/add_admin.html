@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Administrator</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            color: #000;
+        }
+
+        .logo img {
+            max-height: 50px;
+        }
+
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2 {
+            color: #fff;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 600px;
+            color: #000;
+        }
+
+        .form-container h2 {
+            margin-top: 0;
+        }
+
+        .form-container input,
+        .form-container select,
+        .form-container button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            background-color: crimson;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .form-container button:hover {
+            background-color: darkred;
+        }
+
+        .button-container {
+            text-align: center;
+            width: 100%;
+        }
+
+        .required-fields-message {
+            color: crimson;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .go-back {
+            position: absolute;
+            top: 130px;
+            right: 20px;
+        }
+
+        .go-back a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #fff;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: 2px solid #ccc;
+        }
+
+        .go-back a:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-nav">
+                <div class="logo">
+                    <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'student_activity' %}">Student Activity</a>
+                    <a href="{% url 'student_information' %}">Student Information</a>
+                    <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                    <a href="{% url 'admin_profile' %}">Administration</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+        <h1>Add Administrator</h1>
+        <div class="form-container">
+            <div class="required-fields-message">All fields are required</div>
+            <form method="post">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                {{ admin_form.as_p }}
+                <div class="button-container">
+                    <button type="submit">Add Administrator</button>
+                </div>
+            </form>
+        </div>
+        <div class="go-back">
+            <a href="{% url 'admin_list' %}">Go Back</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+

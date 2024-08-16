@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            border: 2px solid #000;
+            width: 45%;
+            max-width: 800px;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .logo {
+            text-align: center;
+        }
+
+        .logo img {
+            max-height: 100px;
+            max-width: 100%;
+        }
+
+        .form-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .form-container {
+            padding: 20px;
+            border-radius: 5px;
+            border: 2px solid #000;
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+            color: #fff;
+            background-color: #333333;
+        }
+
+        .form-container h1, .form-container h2 {
+            color: #fff;
+            margin-top: 0;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        input[type="text"], input[type="password"] {
+            font-size: 24px;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            border-radius: 5px;
+            border: 2px solid #000;
+            background-color: #fff;
+            color: #000;
+        }
+
+        button {
+            font-size: 24px;
+            padding: 10px 20px;
+            background-color: crimson;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 auto;
+            display: block;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+
+        .error-message {
+            color: #ff0000;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        label {
+            color: #fff;
+        }
+
+        .title {
+            font-size: 45px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+        </div>
+    </div>
+    <div class="form-wrapper">
+        <div class="title">DASH Connect</div>
+        <div class="form-container">
+            <h1>Student Login</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-container">
+                    <input type="text" name="username" placeholder="90129303" required>
+                </div>
+                <div class="input-container">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% endif %}
+        </div>
+        <div class="form-container">
+            <h2>New to DASH?</h2>
+            <form method="get" action="{% url 'register_student' %}">
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        <form method="get" action="{% url 'home' %}">
+            <button type="submit">Home</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
+

@@ -1,0 +1,247 @@
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    width: 95%;
+    box-sizing: border-box;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.logo-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    color: #000;
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+h1, h2 {
+    color: #fff;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 600px;
+    color: #000;
+}
+
+.form-container h2 {
+    margin-top: 0;
+}
+
+.form-container input,
+.form-container select,
+.form-container button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-container button {
+    background-color: crimson;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: darkred;
+}
+
+.go-back-button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 10px 0;
+    width: 100%;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.go-back-button:hover {
+    background-color: #777;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.required-fields-message {
+    color: crimson;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: crimson;
+    font-weight: bold;
+}
+
+
+.sidebar {
+    width: 200px;
+    padding: 20px;
+    background-color: #fff;
+    border-right: 1px solid #ccc;
+    border-radius: 8px;
+    color: #000;
+    margin-right: 20px;
+}
+
+.sidebar button, .sidebar a {
+    display: block;
+    width: 90%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: crimson;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.sidebar button:hover, .sidebar a:hover {
+    background-color: darkred;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    color: #000;
+}
+
+.admin-item {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 15px;
+    color: #000;
+}
+
+.admin-item h2 {
+    margin: 0 0 10px 0;
+}
+
+.admin-item p {
+    margin: 5px 0;
+}
+
+.admin-item a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.admin-item a:hover {
+    background-color: #0056b3;
+}
+
+.basic-need-support-item .buttons button {
+    color: #fff;
+    background-color: crimson;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.basic-need-support-item .buttons button.reactivate {
+    background-color: green;
+}
+
+.basic-need-support-item .buttons button:hover {
+    background-color: darkred;
+}
+
+.scholarship-item .buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.admin-item.deactivated {
+    opacity: 0.5;
+}
+
+.admin-item.deactivated .reactivate-button {
+    display: inline-block;
+    background-color: #ff4d4d;
+    font-weight: bold;
+}
+
+.admin-item.deactivated .reactivate-button:hover {
+    background-color: #cc0000;
+}
+
+.admin-item.deactivated button, .admin-item.deactivated a {
+    display: none;
+}
+
+.admin-item.deactivated .reactivate-button {
+    display: inline-block;
+}
+
+
+
+
+
+
+
+

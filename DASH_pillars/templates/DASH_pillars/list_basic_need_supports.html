@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Need Supports</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin: 0 auto;
+            color: #000;
+        }
+        .logo img {
+            max-height: 50px;
+        }
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        h1, h2 {
+            color: #000;
+        }
+        .profile-container {
+            display: flex;
+            width: 100%;
+        }
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #fff;
+            border-right: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-left: 20px;
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: crimson;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .sidebar button a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .sidebar button:hover {
+            background-color: darkred;
+        }
+        .list-section {
+            margin-bottom: 20px;
+        }
+        .list-section .add-button {
+            display: inline-block;
+            background-color: crimson;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .list-section .add-button:hover {
+            background-color: darkred;
+        }
+        .basic-need-support-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            transition: opacity 0.3s ease;
+        }
+        .basic-need-support-item.deactivated {
+            opacity: 0.5;
+        }
+        .basic-need-support-item .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .basic-need-support-item .buttons button {
+            color: #fff;
+            background-color: crimson;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .basic-need-support-item .buttons button.activate {
+            background-color: green;
+        }
+        .basic-need-support-item .buttons button:hover {
+            background-color: darkred;
+        }
+        .basic-need-support-item .buttons button.activate:hover {
+            background-color: darkgreen;
+        }
+        .basic-need-support-item .buttons a.edit {
+            color: #fff;
+            background-color: #0066cc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .basic-need-support-item .buttons a.edit:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-nav">
+                <div class="logo">
+                    <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'student_activity' %}">Student Activity</a>
+                    <a href="{% url 'student_information' %}">Student Information</a>
+                    <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                    <a href="{% url 'admin_profile' %}">Administration</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="profile-container">
+            <div class="sidebar">
+                <div class="button-container">
+                    <button><a href="{% url 'pillars_home' %}">DASH Pillars</a></button>
+                </div>
+                <div class="button-container">
+                    <button><a href="{% url 'list_scholarships' %}">Scholarships</a></button>
+                </div>
+                <div class="button-container">
+                    <button><a href="{% url 'list_hardships' %}">Hardships</a></button>
+                </div>
+                <div class="button-container">
+                    <button><a href="{% url 'list_basic_need_supports' %}">Basic Need Supports</a></button>
+                </div>
+            </div>
+            <div class="content">
+                <h1>Basic Need Supports</h1>
+                <div class="list-section">
+                    <a href="{% url 'add_basic_need_support' %}" class="add-button">Add Basic Need Support</a>
+                    <ul>
+                        {% for basic_need_support in basic_need_supports %}
+                        <li class="basic-need-support-item {% if basic_need_support.is_deactivated %}deactivated{% endif %}">
+                            <span>{{ basic_need_support.name }}</span>
+                            <div class="buttons">
+                                <a href="{% url 'edit_basic_need_support' basic_need_support.id %}" class="edit">Edit</a>
+                                <form method="post" action="{% url 'toggle_basic_need_support' basic_need_support.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="{% if basic_need_support.is_deactivated %}activate{% else %}deactivate{% endif %}">
+                                        {% if basic_need_support.is_deactivated %}Activate{% else %}Deactivate{% endif %}
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

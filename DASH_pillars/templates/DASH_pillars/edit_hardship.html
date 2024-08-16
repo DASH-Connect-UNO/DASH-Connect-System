@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Hardship</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin: 0 auto;
+            color: #000;
+        }
+        .logo img {
+            max-height: 50px;
+        }
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        h1, h2 {
+            color: #000;
+        }
+        .profile-container {
+            display: flex;
+            width: 100%;
+        }
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #fff;
+            border-right: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-left: 20px;
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: crimson;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .sidebar button a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .sidebar button:hover {
+            background-color: darkred;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-section button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: crimson;
+            color: #fff;
+        }
+        .form-section button:hover {
+            background-color: darkred;
+        }
+        .form-section label {
+            color: #000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-nav">
+                <div class="logo">
+                    <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'student_activity' %}">Student Activity</a>
+                    <a href="{% url 'student_information' %}">Student Information</a>
+                    <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                    <a href="{% url 'admin_profile' %}">Administration</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="profile-container">
+            <div class="sidebar">
+                <div class="button-container">
+                    <button><a href="{% url 'pillars_home' %}">DASH Pillars</a></button>
+                </div>
+                <div class="button-container">
+                    <button><a href="{% url 'list_scholarships' %}">Scholarships</a></button>
+                </div>
+                <div class="button-container">
+                    <button><a href="{% url 'list_hardships' %}">Hardships</a></button>
+                </div>
+                <div class="button-container">
+                    <button><a href="{% url 'list_basic_need_supports' %}">Basic Need Supports</a></button>
+                </div>
+            </div>
+            <div class="content">
+                <h1>Edit Hardship</h1>
+                <div class="form-section">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

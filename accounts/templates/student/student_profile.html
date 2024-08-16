@@ -1,0 +1,436 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 99%;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .logo img {
+            max-height: 50px;
+        }
+
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-title, .visit-title {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            color: #000;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .content h1 {
+            color: #000;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            margin: 10px 0;
+            font-weight: normal;
+        }
+
+        .content p strong {
+            font-weight: bold;
+        }
+
+        .edit-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: crimson;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .edit-button:hover {
+            background-color: darkred;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+            color: #000;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: crimson;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        td {
+            background-color: #f9f9f9;
+            color: #000;
+            border-right: 3px solid dimgrey;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        .pagination {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .pagination .page-info {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .pagination a {
+            color: #fff;
+            background-color: crimson;
+            padding: 8px 16px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .pagination a:hover {
+            background-color: darkred;
+        }
+
+        .pagination .current {
+            color: crimson;
+            font-weight: bold;
+            pointer-events: none;
+            background-color: transparent;
+        }
+
+        .visit-count {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .search-bar {
+            padding: 10px;
+            font-size: 16px;
+            width: 150px;
+            margin-right: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            float: right;
+        }
+
+        .yes-counts {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'student_activity' %}">Student Activity</a>
+            <a href="{% url 'student_information' %}">Student Information</a>
+            <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+            <a href="{% url 'admin_profile' %}">Administration</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+
+    <h1 class="profile-title">Student Profile</h1>
+
+    <div class="profile-container">
+        <div class="content" id="student-profile-content">
+            <h1>{{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</h1>
+            <p><strong>NUID:</strong> {{ student.user.NUID }}</p>
+            <p><strong>Email:</strong> {{ student.user.email }}</p>
+            <p><strong>Year:</strong>
+                {% if student.year == "Other" and student.other_year %}
+                    Other ({{ student.other_year }})
+                {% else %}
+                    {{ student.year }}
+                {% endif %}
+            </p>
+            <p><strong>DASH Member:</strong> {{ student.DASH_Member|yesno:"Yes,No" }}</p>
+            
+            <a href="{% url 'edit_student' student.user.NUID %}" class="edit-button">Edit</a>
+        </div>
+
+        <h1 class="visit-title">DASH Visits and Follow-up Requests</h1>
+
+        <div class="visit-count">
+            <p><strong>Total Visits:</strong> {{ student.visitreason_set.count }}</p>
+            <input type="date" id="dateFilter" class="search-bar">
+        <div id="yesCounts" class="yes-counts"></div>
+        </div>
+        <table id="studentTable">
+            <thead>
+            <tr>
+                <th>Date Visited</th>
+                <th>Appointment with DASH Staff</th>
+                <th>Printing</th>
+                <th>Study</th>
+                <th>Socialize/Relax</th>
+                <th>Student Affinity Group</th>
+                <th>Event</th>
+                <th>Schedule an Appointment</th>
+                <th>Hardship Follow-up</th>
+                <th>Basic Needs Support Follow-up</th>
+                <th>Student Affinity Group</th>
+                <th>Other</th> 
+            </tr>
+            </thead>
+            <tbody>
+            {% if page_obj %}
+                {% for visit in page_obj %}
+                    <tr>
+                        <td>{{ visit.date_time|date:"M d, Y H:i" }}</td>
+                        <td>{{ visit.appointment|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.printing|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.study|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.socialize|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.event|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.schedule_appointment|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.hardship|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.basic_needs_support|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.student_affinity_group|yesno:"Yes,No" }}</td> 
+                        <td>{{ visit.other|yesno:"Yes,No" }}</td> 
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="11">No visits found.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <div class="page-info">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </div>
+            <div class="pagination-links">
+                <a href="?page=1">&laquo; First</a>
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% else %}
+                    <a href="#" class="disabled">Previous</a>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                {% else %}
+                    <a href="#" class="disabled">Next</a>
+                {% endif %}
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('dateFilter').addEventListener('change', filterTable);
+    document.addEventListener('DOMContentLoaded', filterTable);
+
+    function filterTable() {
+        var dateInput = getDateInput();
+        var rows = getTableRows();
+        var visibleRowCount = filterAndCountVisibleRows(rows, dateInput);
+        updateYesCounts(rows, dateInput);
+    }
+
+    function getDateInput() {
+        return document.getElementById('dateFilter').value;
+    }
+
+    function getTableRows() {
+        return document.querySelectorAll('#studentTable tbody tr');
+    }
+
+    function formatVisitDate(visitDate) {
+        var visitDateObj = new Date(visitDate);
+        return visitDateObj.toISOString().split('T')[0];
+    }
+
+    function filterAndCountVisibleRows(rows, dateInput) {
+        var visibleRowCount = 0;
+
+        rows.forEach(function (row) {
+            if (isRowVisible(row, dateInput)) {
+                row.style.display = '';
+                visibleRowCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        return visibleRowCount;
+    }
+
+    function isRowVisible(row, dateInput) {
+        var visitDate = row.querySelector('td:first-child').textContent.trim();
+        var visitDateISO = formatVisitDate(visitDate);
+
+        return dateInput === "" || visitDateISO === dateInput;
+    }
+
+    function updateYesCounts(rows, dateInput) {
+        const yesCounts = {
+            appointment: 0,
+            printing: 0,
+            study: 0,
+            socialize: 0,
+            affinity: 0,
+            event: 0,
+            schedule: 0,
+            hardship: 0,
+            basicNeeds: 0,
+            financial: 0,
+            volunteer: 0,
+            other: 0,
+        };
+
+        rows.forEach(function (row) {
+            if (row.style.display !== 'none') {
+                var visitDate = row.querySelector('td:first-child').textContent.trim();
+                var visitDateISO = formatVisitDate(visitDate);
+
+                if (visitDateISO === dateInput) {
+                    yesCounts.appointment += row.getElementsByTagName("TD")[1].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.printing += row.getElementsByTagName("TD")[2].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.study += row.getElementsByTagName("TD")[3].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.socialize += row.getElementsByTagName("TD")[4].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.affinity += row.getElementsByTagName("TD")[9].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.event += row.getElementsByTagName("TD")[5].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.schedule += row.getElementsByTagName("TD")[6].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.hardship += row.getElementsByTagName("TD")[7].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.basicNeeds += row.getElementsByTagName("TD")[8].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.other += row.getElementsByTagName("TD")[10].textContent.trim().toLowerCase() === 'yes' ? 1 : 0; 
+                }
+            }
+        });
+
+        const yesCountsDiv = document.getElementById('yesCounts');
+        yesCountsDiv.innerHTML = `
+            <h2>Confirmations</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Appointment with DASH Staff</th>
+                        <th>Printing</th>
+                        <th>Study</th>
+                        <th>Socialize/Relax</th>
+                        <th>Student Affinity Group</th>
+                        <th>Event</th>
+                        <th>Schedule an Appointment</th>
+                        <th>Hardship Follow-up</th>
+                        <th>Basic Needs Support Follow-up</th>
+                        <th>Financial Wellness</th>
+                        <th>Volunteer Opportunities</th>
+                        <th>Other</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${yesCounts.appointment}</td>
+                        <td>${yesCounts.printing}</td>
+                        <td>${yesCounts.study}</td>
+                        <td>${yesCounts.socialize}</td>
+                        <td>${yesCounts.affinity}</td>
+                        <td>${yesCounts.event}</td>
+                        <td>${yesCounts.schedule}</td>
+                        <td>${yesCounts.hardship}</td>
+                        <td>${yesCounts.basicNeeds}</td>
+                        <td>${yesCounts.financial}</td>
+                        <td>${yesCounts.volunteer}</td>
+                        <td>${yesCounts.other}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    }
+</script>
+
+</body>
+</html>
+
